@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Leo Wealth Dashboard V2</title>
+<style>
+:root{
+  --bg:#08111f; --panel:#101a2c; --panel2:#0d1727; --text:#eef4ff; --muted:#97a6c0;
+  --line:#25324b; --green:#4bd38a; --yellow:#f0b95d; --blue:#71a7ff; --purple:#9b7cff;
+  --red:#ff7474; --cyan:#54d6d2;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#07101b,#0a1221 45%,#08111f);color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1220px;margin:auto;padding:22px}
+.header{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;margin-bottom:16px}
+h1{margin:0;font-size:31px}.sub{color:var(--muted);font-size:13px;margin-top:6px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:#cad6ec;background:#0b1526;font-size:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.01));border:1px solid var(--line);
+border-radius:18px;padding:16px;box-shadow:0 12px 28px rgba(0,0,0,.16)}
+.klabel{font-size:12px;color:var(--muted)}.kval{font-size:27px;font-weight:800;margin-top:7px}.knote{font-size:11px;color:var(--muted);margin-top:6px}
+.section{margin-top:13px}.title{font-size:16px;font-weight:750;margin-bottom:12px}
+.donutWrap{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center}
+.donut{width:165px;height:165px;border-radius:50%;position:relative;display:grid;place-items:center}
+.donut:after{content:"";position:absolute;width:103px;height:103px;border-radius:50%;background:#0d1727}
+.donut .center{position:relative;z-index:2;text-align:center}.donut .center b{font-size:23px}.donut .center span{font-size:11px;color:var(--muted)}
+.legend{display:grid;gap:8px}.leg{display:grid;grid-template-columns:12px 1fr auto;gap:8px;align-items:center;font-size:12px}
+.dot{width:10px;height:10px;border-radius:50%}
+.signal{display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:center}
+.score{width:108px;height:108px;border-radius:50%;background:conic-gradient(var(--green) 0 63%,#1e2a3f 63% 100%);position:relative;display:grid;place-items:center}
+.score:after{content:"";position:absolute;width:76px;height:76px;border-radius:50%;background:#0d1727}
+.score b{z-index:2;font-size:28px}.action{font-size:20px;font-weight:800}.hint{font-size:11px;color:var(--muted);line-height:1.55;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{color:#a8b4ca;font-weight:650;white-space:nowrap}.tag{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;white-space:nowrap}
+.buy{background:rgba(75,211,138,.13);color:#7de3aa}.watch{background:rgba(240,185,93,.13);color:#f4ca82}.stop{background:rgba(255,116,116,.12);color:#ff9b9b}
+.barrow{display:grid;grid-template-columns:105px 1fr 68px;gap:8px;align-items:center;margin:10px 0;font-size:12px}
+.bar{height:9px;border-radius:999px;background:#1d293b;overflow:hidden}.bar span{height:100%;display:block;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--purple))}
+.alert{padding:13px;border-radius:14px;border:1px solid #31557a;background:#0d2035;margin-top:10px;font-size:12px;line-height:1.55}
+.risk{padding:12px;border-radius:14px;border:1px solid #6a4f24;background:#21190d;font-size:11px;color:#e8d3a6;line-height:1.6}
+.footer{margin-top:13px;color:#77869f;font-size:10px;line-height:1.55}
+@media(max-width:920px){.grid4{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.header{align-items:flex-start;flex-direction:column}}
+@media(max-width:560px){.wrap{padding:13px}.card{padding:13px;border-radius:15px}.grid4{gap:9px}.kval{font-size:21px}.donutWrap{grid-template-columns:145px 1fr}.donut{width:135px;height:135px}.donut:after{width:85px;height:85px}.barrow{grid-template-columns:90px 1fr 55px}.stocktbl{overflow-x:auto}.stocktbl table{min-width:820px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div>
+      <h1>Leo Wealth Dashboard · V2</h1>
+      <div class="sub">资产驾驶舱 · 个股买点 · 仓位建议 · 风控阈值 · 数据快照 2026-08-22</div>
+    </div>
+    <div class="pill">长期目标：年化 6–10% · 最大回撤约 30%</div>
+  </div>
+
+  <div class="grid4">
+    <div class="card"><div class="klabel">实际可投资资产</div><div class="kval">¥1,055,608</div><div class="knote">已剔除月底提前还贷 ¥310,000</div></div>
+    <div class="card"><div class="klabel">现金 / 低风险</div><div class="kval">83.9%</div><div class="knote">目标防守层约 35%</div></div>
+    <div class="card"><div class="klabel">权益资产</div><div class="kval">16.1%</div><div class="knote">核心仓明显不足</div></div>
+    <div class="card"><div class="klabel">本月投入预算</div><div class="kval">¥80,000</div><div class="knote">宽基优先；个股只用小仓</div></div>
+  </div>
+
+  <div class="grid2 section">
+    <div class="card">
+      <div class="title">当前资产结构</div>
+      <div class="donutWrap">
+        <div class="donut" style="background:conic-gradient(var(--blue) 0 68%,var(--cyan) 68% 83.9%,var(--green) 83.9% 90.8%,var(--purple) 90.8% 93.7%,var(--yellow) 93.7% 100%)">
+          <div class="center"><b>105.6万</b><br><span>可投资资产</span></div>
+        </div>
+        <div class="legend">
+          <div class="leg"><i class="dot" style="background:var(--blue)"></i><span>现金 / 活期</span><b>≈68%</b></div>
+          <div class="leg"><i class="dot" style="background:var(--cyan)"></i><span>低风险资金</span><b>≈15.9%</b></div>
+          <div class="leg"><i class="dot" style="background:var(--green)"></i><span>中国宽基</span><b>≈6.9%</b></div>
+          <div class="leg"><i class="dot" style="background:var(--purple)"></i><span>海外宽基</span><b>≈2.9%</b></div>
+          <div class="leg"><i class="dot" style="background:var(--yellow)"></i><span>个股 / 主题</span><b>≈6.3%</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="title">今日投资信号</div>
+      <div class="signal">
+        <div class="score"><b>63</b></div>
+        <div>
+          <div class="action">正常投入 · 不追涨</div>
+          <div class="hint">宽基执行优先级高于个股。个股仅在进入预设区间时分批建仓，并受卫星仓 ≤10% 总上限约束。</div>
+          <div class="alert"><b>今日动作：</b>中国移动与招商银行处于“可小仓观察/建仓”区；腾讯更适合等回落；茅台与美的暂不追。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card section">
+    <div class="title">目标配置进度</div>
+    <div class="barrow"><span>现金 / 活期</span><div class="bar"><span style="width:68%"></span></div><b>68 / 20</b></div>
+    <div class="barrow"><span>低风险</span><div class="bar"><span style="width:15.9%"></span></div><b>15.9 / 15</b></div>
+    <div class="barrow"><span>中国宽基</span><div class="bar"><span style="width:6.9%"></span></div><b>6.9 / 30</b></div>
+    <div class="barrow"><span>海外宽基</span><div class="bar"><span style="width:2.9%"></span></div><b>2.9 / 25</b></div>
+    <div class="barrow"><span>卫星仓</span><div class="bar"><span style="width:6.1%"></span></div><b>6.1 / ≤10</b></div>
+  </div>
+
+  <div class="card section stocktbl">
+    <div class="title">个股买点与风控面板</div>
+    <table>
+      <thead>
+        <tr><th>标的</th><th>参考价*</th><th>建议状态</th><th>分批建仓区间</th><th>建议首笔金额</th><th>风险控制参考</th><th>止盈/减仓参考</th><th>逻辑</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>中国移动 600941</b></td><td>¥96.25</td><td><span class="tag buy">可小仓</span></td>
+          <td>¥92–96</td><td>¥8,000–10,000</td><td>¥85 附近 / 基本面破坏</td><td>¥110 第一档；¥120 第二档</td><td>高现金流、分红、防守属性</td>
+        </tr>
+        <tr>
+          <td><b>招商银行 600036</b></td><td>¥38.90</td><td><span class="tag buy">可小仓</span></td>
+          <td>¥37–39</td><td>¥6,000–8,000</td><td>¥34.5 附近 / 资产质量恶化</td><td>¥44 第一档；¥48 第二档</td><td>低估值、ROE质量、拨备缓冲</td>
+        </tr>
+        <tr>
+          <td><b>腾讯控股 0700.HK</b></td><td>HK$457</td><td><span class="tag watch">等回落</span></td>
+          <td>HK$430–455</td><td>¥8,000–10,000 等值</td><td>HK$405 附近 / 盈利逻辑改变</td><td>HK$520 第一档；HK$580 第二档</td><td>高质量成长，AI投入期波动较大</td>
+        </tr>
+        <tr>
+          <td><b>贵州茅台 600519</b></td><td>¥1,272.83</td><td><span class="tag watch">观察</span></td>
+          <td>¥1,180–1,250</td><td>暂不建议</td><td>¥1,100 附近 / 渠道价格失控</td><td>¥1,450 / ¥1,600</td><td>A股一手金额过高，不适合当前卫星仓额度</td>
+        </tr>
+        <tr>
+          <td><b>美的集团 000333</b></td><td>¥84.30</td><td><span class="tag watch">观察</span></td>
+          <td>¥80–83</td><td>暂不建议</td><td>¥74 附近 / 盈利质量明显下滑</td><td>¥95 / ¥105</td><td>公司质量高，但当前不需要扩展更多个股</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="hint">*参考价采用 2026-08-21 收盘/最新可核实行情。金额与阈值是组合风控框架，不是保证成交或收益的“目标价”。真正执行时应以当日行情和最新财报重新校准。</div>
+  </div>
+
+  <div class="grid2 section">
+    <div class="card">
+      <div class="title">卫星仓纪律</div>
+      <table>
+        <tr><td>卫星仓总上限</td><td><b>≤ ¥105,561（10%）</b></td></tr>
+        <tr><td>当前卫星仓</td><td>≈ ¥64,526（约6.1%）</td></tr>
+        <tr><td>剩余可用额度</td><td>≈ ¥41,000</td></tr>
+        <tr><td>单只新股票首仓</td><td>通常 ¥6,000–10,000</td></tr>
+        <tr><td>单只股票最高仓位</td><td>原则上不超过可投资资产 3–4%</td></tr>
+      </table>
+      <div class="alert"><b>执行优先级：</b>宽基补仓 ＞ 中国移动 / 招行小仓 ＞ 腾讯回落建仓 ＞ 其他个股。</div>
+    </div>
+    <div class="card">
+      <div class="title">报警规则</div>
+      <table>
+        <tr><td>🟢 买点报警</td><td>价格进入预设建仓区间，且无重大基本面利空</td></tr>
+        <tr><td>🟡 减仓报警</td><td>触达第一止盈区或卫星仓超过10%</td></tr>
+        <tr><td>🔴 风险报警</td><td>跌破风控价、财报恶化、重大监管/治理事件</td></tr>
+        <tr><td>🔵 宽基加仓报警</td><td>主要指数明显回撤且组合权益仓仍低于目标</td></tr>
+      </table>
+      <div class="risk">止损不建议机械“一到价就卖”。对高质量长期股票，更合理的是“价格阈值 + 基本面复核”双条件；如果只是短期波动但逻辑未变，可以不执行机械止损。</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    这是 V2 静态策略面板。下一步接行情数据后，可自动刷新价格、PE/PB、MA200、回撤、评分与买点状态，并把触发结果推送为提醒。<br>
+    该面板用于个人资产管理与风险纪律，不构成收益保证。
+  </div>
+</div>
+</body>
+</html>

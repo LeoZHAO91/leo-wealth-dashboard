@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Leo Wealth Dashboard V2</title>
+<title>Leo Wealth Dashboard V3</title>
 <style>
 :root{
   --bg:#08111f; --panel:#101a2c; --panel2:#0d1727; --text:#eef4ff; --muted:#97a6c0;
@@ -49,8 +49,8 @@ th{color:#a8b4ca;font-weight:650;white-space:nowrap}.tag{display:inline-block;pa
 <div class="wrap">
   <div class="header">
     <div>
-      <h1>Leo Wealth Dashboard · V2</h1>
-      <div class="sub">资产驾驶舱 · 个股买点 · 仓位建议 · 风控阈值 · 数据快照 2026-08-22</div>
+      <h1>Leo Wealth Dashboard · V3</h1>
+      <div class="sub">资产驾驶舱 · 个股买点 · 仓位建议 · 风控阈值 · 买入建议更新 2026-08-24 11:35（UTC+8）</div>
     </div>
     <div class="pill">长期目标：年化 6–10% · 最大回撤约 30%</div>
   </div>
@@ -84,9 +84,9 @@ th{color:#a8b4ca;font-weight:650;white-space:nowrap}.tag{display:inline-block;pa
       <div class="signal">
         <div class="score"><b>63</b></div>
         <div>
-          <div class="action">正常投入 · 不追涨</div>
-          <div class="hint">宽基执行优先级高于个股。个股仅在进入预设区间时分批建仓，并受卫星仓 ≤10% 总上限约束。</div>
-          <div class="alert"><b>今日动作：</b>中国移动与招商银行处于“可小仓观察/建仓”区；腾讯更适合等回落；茅台与美的暂不追。</div>
+          <div class="action">正常投入 · 招行/腾讯可分批</div>
+          <div class="hint">宽基执行优先级仍高于个股。个股仅在进入预设区间时分批建仓，并受卫星仓 ≤10% 总上限约束。</div>
+          <div class="alert"><b>11:35 动作：</b>招商银行最新可核实日内区间约 ¥38.03–38.36，处于 ¥37–39 建仓区；腾讯约 HK$440.8，已进入 HK$430–455 建仓区，可分批小仓。中国移动最近可核实收盘 ¥96.25，略高于建仓上沿 ¥96，等 ≤¥96；美的约 ¥85.54，高于 ¥80–83；茅台最近可核实收盘 ¥1,272.83，高于 ¥1,180–1,250，继续观察。</div>
         </div>
       </div>
     </div>
@@ -105,32 +105,32 @@ th{color:#a8b4ca;font-weight:650;white-space:nowrap}.tag{display:inline-block;pa
     <div class="title">个股买点与风控面板</div>
     <table>
       <thead>
-        <tr><th>标的</th><th>参考价*</th><th>建议状态</th><th>分批建仓区间</th><th>建议首笔金额</th><th>风险控制参考</th><th>止盈/减仓参考</th><th>逻辑</th></tr>
+        <tr><th>标的</th><th>最新可核实价/区间*</th><th>建议状态</th><th>分批建仓区间</th><th>建议首笔金额</th><th>风险控制参考</th><th>止盈/减仓参考</th><th>逻辑</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td><b>中国移动 600941</b></td><td>¥96.25</td><td><span class="tag buy">可小仓</span></td>
-          <td>¥92–96</td><td>¥8,000–10,000</td><td>¥85 附近 / 基本面破坏</td><td>¥110 第一档；¥120 第二档</td><td>高现金流、分红、防守属性</td>
+          <td><b>中国移动 600941</b></td><td>¥96.25（8/21收盘）</td><td><span class="tag watch">等≤¥96</span></td>
+          <td>¥92–96</td><td>触发后 ¥8,000–10,000</td><td>¥85 附近 / 基本面破坏</td><td>¥110 第一档；¥120 第二档</td><td>高现金流、分红、防守属性；当前仅略高于建仓区</td>
         </tr>
         <tr>
-          <td><b>招商银行 600036</b></td><td>¥38.90</td><td><span class="tag buy">可小仓</span></td>
-          <td>¥37–39</td><td>¥6,000–8,000</td><td>¥34.5 附近 / 资产质量恶化</td><td>¥44 第一档；¥48 第二档</td><td>低估值、ROE质量、拨备缓冲</td>
+          <td><b>招商银行 600036</b></td><td>约 ¥38.03–38.36（日内可核实区间）</td><td><span class="tag buy">可分批</span></td>
+          <td>¥37–39</td><td>¥6,000–8,000</td><td>¥34.5 附近 / 资产质量恶化</td><td>¥44 第一档；¥48 第二档</td><td>处于预设建仓区；中报临近，首笔控制仓位</td>
         </tr>
         <tr>
-          <td><b>腾讯控股 0700.HK</b></td><td>HK$457</td><td><span class="tag watch">等回落</span></td>
-          <td>HK$430–455</td><td>¥8,000–10,000 等值</td><td>HK$405 附近 / 盈利逻辑改变</td><td>HK$520 第一档；HK$580 第二档</td><td>高质量成长，AI投入期波动较大</td>
+          <td><b>腾讯控股 0700.HK</b></td><td>约 HK$440.8（10:47延迟）</td><td><span class="tag buy">可分批</span></td>
+          <td>HK$430–455</td><td>¥8,000–10,000 等值</td><td>HK$405 附近 / 盈利逻辑改变</td><td>HK$520 第一档；HK$580 第二档</td><td>今日回落进入预设区间；高质量成长，仍需接受波动</td>
         </tr>
         <tr>
-          <td><b>贵州茅台 600519</b></td><td>¥1,272.83</td><td><span class="tag watch">观察</span></td>
-          <td>¥1,180–1,250</td><td>暂不建议</td><td>¥1,100 附近 / 渠道价格失控</td><td>¥1,450 / ¥1,600</td><td>A股一手金额过高，不适合当前卫星仓额度</td>
+          <td><b>贵州茅台 600519</b></td><td>¥1,272.83（8/21收盘）</td><td><span class="tag watch">观察</span></td>
+          <td>¥1,180–1,250</td><td>暂不建议</td><td>¥1,100 附近 / 渠道价格失控</td><td>¥1,450 / ¥1,600</td><td>行业仍处调整期；当前仍高于建仓区，一手金额也偏高</td>
         </tr>
         <tr>
-          <td><b>美的集团 000333</b></td><td>¥84.30</td><td><span class="tag watch">观察</span></td>
-          <td>¥80–83</td><td>暂不建议</td><td>¥74 附近 / 盈利质量明显下滑</td><td>¥95 / ¥105</td><td>公司质量高，但当前不需要扩展更多个股</td>
+          <td><b>美的集团 000333</b></td><td>约 ¥85.54（10:30延迟）</td><td><span class="tag watch">等待</span></td>
+          <td>¥80–83</td><td>暂不建议</td><td>¥74 附近 / 盈利质量明显下滑</td><td>¥95 / ¥105</td><td>公司质量高，但当前价格高于预设建仓区，不追涨</td>
         </tr>
       </tbody>
     </table>
-    <div class="hint">*参考价采用 2026-08-21 收盘/最新可核实行情。金额与阈值是组合风控框架，不是保证成交或收益的“目标价”。真正执行时应以当日行情和最新财报重新校准。</div>
+    <div class="hint">*更新时间：2026-08-24 11:35（UTC+8）。不同市场与数据源可能存在延迟；无法获得当日可靠报价的标的明确标注最近可核实收盘价。金额与阈值是组合风控框架，不是保证成交或收益的“目标价”，真正执行以券商实时行情和最新财报为准。</div>
   </div>
 
   <div class="grid2 section">
@@ -143,7 +143,7 @@ th{color:#a8b4ca;font-weight:650;white-space:nowrap}.tag{display:inline-block;pa
         <tr><td>单只新股票首仓</td><td>通常 ¥6,000–10,000</td></tr>
         <tr><td>单只股票最高仓位</td><td>原则上不超过可投资资产 3–4%</td></tr>
       </table>
-      <div class="alert"><b>执行优先级：</b>宽基补仓 ＞ 中国移动 / 招行小仓 ＞ 腾讯回落建仓 ＞ 其他个股。</div>
+      <div class="alert"><b>当前执行优先级：</b>宽基补仓 ＞ 招行 / 腾讯分批小仓 ＞ 中国移动等 ≤¥96 ＞ 茅台 / 美的等待。</div>
     </div>
     <div class="card">
       <div class="title">报警规则</div>
@@ -158,7 +158,7 @@ th{color:#a8b4ca;font-weight:650;white-space:nowrap}.tag{display:inline-block;pa
   </div>
 
   <div class="footer">
-    这是 V2 静态策略面板。下一步接行情数据后，可自动刷新价格、PE/PB、MA200、回撤、评分与买点状态，并把触发结果推送为提醒。<br>
+    V3 已加入动态买入建议更新时间与数据新鲜度标识；真实账户余额、实际持仓数量仍以你后续截图/成交信息为准，不自动猜测。<br>
     该面板用于个人资产管理与风险纪律，不构成收益保证。
   </div>
 </div>

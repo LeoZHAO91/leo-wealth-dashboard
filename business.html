@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Leo Business Command Center V3.1</title>
+<title>Leo Business Command Center V3.2</title>
 <style>:root{--bg:#07101b;--p:#101a2c;--p2:#0c1626;--t:#eef4ff;--m:#91a1bc;--l:#25324b;--g:#4bd38a;--y:#f0b95d;--r:#ff7474;--b:#71a7ff}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -12,12 +12,12 @@ body{margin:0;background:linear-gradient(180deg,#07101b,#0a1221 45%,#08111f);col
 h1{margin:0;font-size:32px}
 .sub,.muted{color:var(--m)}
 .sub{font-size:13px;margin:7px 0 18px}
-.nav{display:flex;gap:8px;overflow:auto;margin:15px 0 22px}
+.nav{display:flex;gap:8px;overflow:auto;margin:15px 0 22px;padding-bottom:2px;scrollbar-width:thin}
 .nav span,.nav a,.tag{white-space:nowrap;border:1px solid var(--l);border-radius:999px;padding:7px 10px;font-size:11px;color:#cbd7eb;text-decoration:none}
-.nav a{border-color:#36588e;color:#d8e7ff;background:#12233d}
-.nav a:hover{border-color:var(--b)}
-.sec{margin:30px 0 12px}
-.sec h2{font-size:21px;margin:0}
+.nav a{display:inline-flex;align-items:center;gap:5px;background:#0c1728;transition:border-color .18s ease,background .18s ease,color .18s ease}
+.nav a:hover,.nav a.is-active{border-color:#4f7ec1;color:#fff;background:#132b4c}
+.sec{margin:30px 0 12px;scroll-margin-top:20px}
+.sec h2{display:flex;align-items:center;gap:8px;font-size:21px;margin:0}
 .sec p{font-size:12px;color:var(--m);margin:5px 0}
 .g6,.g4,.g3,.g2{display:grid;gap:13px}
 .g6{grid-template-columns:repeat(6,1fr)}
@@ -74,6 +74,21 @@ th{color:var(--m);font-weight:500}
 .form-help{grid-column:1/-1;color:#72839f;font-size:11px;line-height:1.55}
 .dialog-actions{display:flex;justify-content:space-between;gap:10px;margin-top:19px}
 .dialog-actions>div{display:flex;gap:8px}
+.svg-sprite{position:absolute;width:0;height:0;overflow:hidden}
+.icon{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.nav .icon{width:13px;height:13px;color:#86b5ff}
+.section-icon{display:inline-grid;place-items:center;width:30px;height:30px;border:1px solid #2f4668;border-radius:9px;background:#101f35;color:#80aff7}
+.section-icon .icon{width:16px;height:16px}
+.quick-icon{display:grid;place-items:center;width:34px;height:34px;border:1px solid #304766;border-radius:10px;background:#0c1b30;color:#83b1f6}
+.quick-icon .icon{width:18px;height:18px}
+.source-card{position:relative;overflow:hidden}
+.source-card::after{content:"";position:absolute;right:-28px;bottom:-42px;width:110px;height:110px;border-radius:50%;background:rgba(113,167,255,.06)}
+.source-card .v{font-size:21px}
+.source-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.source-pill{display:inline-flex;align-items:center;border:1px solid #30435f;border-radius:999px;padding:4px 7px;color:#9fb0ca;font-size:10px}
+.source-ledger{border-color:#395e91;background:linear-gradient(180deg,#12243d,#0c1729)}
+.source-ledger .quick-status{position:relative;z-index:1}
+.source-note{margin-top:13px}
 @media(max-width:900px){.g6{grid-template-columns:repeat(3,1fr)}
 .g4{grid-template-columns:repeat(2,1fr)}
 }
@@ -94,53 +109,80 @@ h1{font-size:27px}
 </style>
 </head>
 <body>
+<svg class="svg-sprite" aria-hidden="true">
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.1 1.1"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.1-1.1"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12v9"/></symbol>
+<symbol id="i-store" viewBox="0 0 24 24"><path d="M4 10v10h16V10M3 10l2-6h14l2 6"/><path d="M3 10a3 3 0 0 0 5 2 3 3 0 0 0 4 0 3 3 0 0 0 4 0 3 3 0 0 0 5-2M9 20v-5h6v5"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="11" cy="13" r="8"/><circle cx="11" cy="13" r="4"/><path d="m14 10 7-7M16 3h5v5"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 6h14a2 2 0 0 1 2 2v11H4a2 2 0 0 1-2-2V6a3 3 0 0 1 3-3h12"/><path d="M20 11h-5a2 2 0 0 0 0 4h5"/></symbol>
+<symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 5h11v12H3zM14 9h4l3 4v4h-7"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="i-checklist" viewBox="0 0 24 24"><path d="m4 6 2 2 3-3M11 7h9M4 13l2 2 3-3M11 14h9M4 20h5M11 20h9"/></symbol>
+<symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3 1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2L12 3ZM19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14ZM5 13l.8 2.2L8 16l-2.2.8L5 19l-.8-2.2L2 16l2.2-.8L5 13Z"/></symbol>
+<symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></symbol>
+<symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V4h6v3M3 12h18M10 12v2h4v-2"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h7l2 2h9v11H3z"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></symbol>
+<symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 13v7H4V6h7"/></symbol>
+</svg>
 <div class="w">
-<h1>Leo Business Command Center · V3.1</h1>
-<div class="sub">MEA · ASEAN · India · Global Washer ｜ 已开始回填历史已知数据 ｜ 更新 2026-08-26</div>
-<div class="nav">
-<a href="#connections">00 连接</a>
-<span>01 业绩</span>
-<span>02 区域</span>
-<span>03 产品</span>
-<span>04 渠道竞争</span>
-<span>05 项目</span>
-<span>06 利润费用</span>
-<span>07 预测供应</span>
-<span>08 风险</span>
-<span>09 行动</span>
-<span>10 洞察</span>
+<h1>Leo Business Command Center · V3.2</h1>
+<div class="sub">MEA · ASEAN · India · Global Washer ｜ Excel 脱敏汇总 ｜ Notion 私有口径台账 ｜ 更新 2026-08-26</div>
+<div class="nav" aria-label="Dashboard 板块导航">
+<a href="#connections"><svg class="icon"><use href="#i-link"/></svg>00 连接</a>
+<a href="#performance"><svg class="icon"><use href="#i-chart"/></svg>01 业绩</a>
+<a href="#regions"><svg class="icon"><use href="#i-globe"/></svg>02 区域</a>
+<a href="#products"><svg class="icon"><use href="#i-box"/></svg>03 产品</a>
+<a href="#channels"><svg class="icon"><use href="#i-store"/></svg>04 渠道竞争</a>
+<a href="#projects"><svg class="icon"><use href="#i-target"/></svg>05 项目</a>
+<a href="#profit"><svg class="icon"><use href="#i-wallet"/></svg>06 利润费用</a>
+<a href="#forecast"><svg class="icon"><use href="#i-truck"/></svg>07 预测供应</a>
+<a href="#risks"><svg class="icon"><use href="#i-shield"/></svg>08 风险</a>
+<a href="#actions"><svg class="icon"><use href="#i-checklist"/></svg>09 行动</a>
+<a href="#insights"><svg class="icon"><use href="#i-sparkles"/></svg>10 洞察</a>
+<a href="#sources"><svg class="icon"><use href="#i-database"/></svg>11 数据源</a>
 </div>
 <div class="sec connection-heading" id="connections">
 <div>
-<h2>00｜连接 / 快捷入口</h2>
+<h2><span class="section-icon"><svg class="icon"><use href="#i-link"/></svg></span>00｜连接 / 快捷入口</h2>
 <p>安全跳转到业务工具；这里只保存链接偏好，不会读取 Notion 或邮箱数据。</p>
 </div>
 <button class="button" id="openConnectionSettings" type="button">管理连接</button>
 </div>
 <div class="g4">
 <a class="c quick-link is-unconfigured" id="notionBusinessLink" href="#connections" aria-disabled="true">
-<div class="quick-icon">◆</div>
+<div class="quick-icon"><svg class="icon"><use href="#i-briefcase"/></svg></div>
 <div class="k">Notion</div>
 <div class="v">业务主页</div>
 <div class="small">经营资料、周报与核心文档入口</div>
 <div class="quick-status" id="notionBusinessStatus">待配置</div>
 </a>
 <a class="c quick-link is-unconfigured" id="notionProjectLink" href="#connections" aria-disabled="true">
-<div class="quick-icon">◇</div>
+<div class="quick-icon"><svg class="icon"><use href="#i-folder"/></svg></div>
 <div class="k">Notion</div>
 <div class="v">项目页面</div>
 <div class="small">关键项目、任务与会议纪要入口</div>
 <div class="quick-status" id="notionProjectStatus">待配置</div>
 </a>
+<a class="c quick-link is-unconfigured" id="notionSourceLink" href="#connections" aria-disabled="true">
+<div class="quick-icon"><svg class="icon"><use href="#i-database"/></svg></div>
+<div class="k">Notion · Private</div>
+<div class="v">数据源台账</div>
+<div class="small">原始资料、统计口径、负责人和更新时间</div>
+<div class="quick-status" id="notionSourceStatus">待配置</div>
+</a>
 <a class="c quick-link" id="mailtoLink" href="mailto:">
-<div class="quick-icon">✉</div>
+<div class="quick-icon"><svg class="icon"><use href="#i-mail"/></svg></div>
 <div class="k">Email</div>
 <div class="v">写邮件</div>
 <div class="small" id="mailtoDescription">使用电脑默认邮件应用，新建一封空白邮件</div>
 <div class="quick-status">可使用</div>
 </a>
 <div class="c">
-<div class="quick-icon">↗</div>
+<div class="quick-icon"><svg class="icon"><use href="#i-external"/></svg></div>
 <div class="k">Web Mail</div>
 <div class="v">网页邮箱</div>
 <div class="small">通过官方页面写邮件或搜索相关邮件</div>
@@ -153,8 +195,46 @@ h1{font-size:27px}
 </div>
 </div>
 <div class="security-note"><span>🔒</span><span><strong>安全说明：</strong>配置仅保存在当前浏览器，不会上传到 GitHub；页面中没有 Notion、Outlook 或 Gmail API token。实时读取数据需要后端或 Serverless 授权层。</span></div>
-<div class="sec">
-<h2>01｜业绩总览</h2>
+<div class="sec" id="sources">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-database"/></svg></span>11｜数据源与口径</h2>
+<p>公开页面只展示来源覆盖和管理口径；原始文件、内部地址和敏感明细保留在有权限的 Notion 私有台账中。</p>
+</div>
+<div class="g4">
+<div class="c source-card">
+<div class="quick-icon"><svg class="icon"><use href="#i-checklist"/></svg></div>
+<div class="k">来源覆盖</div>
+<div class="v green">10 / 10</div>
+<div class="small">01–10 每个管理板块均已建立来源映射。</div>
+<div class="source-meta"><span class="source-pill">板块映射</span><span class="source-pill">口径说明</span></div>
+</div>
+<div class="c source-card">
+<div class="quick-icon"><svg class="icon"><use href="#i-folder"/></svg></div>
+<div class="k">当前资料状态</div>
+<div class="v yellow">逐项补原件</div>
+<div class="small">历史摘录已登记；Actual / Plan / Forecast、利润和项目原件仍需持续补齐。</div>
+<div class="source-meta"><span class="source-pill">不使用推算值</span></div>
+</div>
+<div class="c source-card">
+<div class="quick-icon"><svg class="icon"><use href="#i-lock"/></svg></div>
+<div class="k">保密控制</div>
+<div class="v blue">3 级分层</div>
+<div class="small">内部 / 机密 / 严格受限；公开网页只呈现脱敏管理结论。</div>
+<div class="source-meta"><span class="source-pill">无密钥</span><span class="source-pill">无内部地址</span></div>
+</div>
+<a class="c quick-link source-card source-ledger is-unconfigured" id="sourceLedgerLink" href="#connections" aria-disabled="true">
+<div class="quick-icon"><svg class="icon"><use href="#i-database"/></svg></div>
+<div class="k">Notion · Private</div>
+<div class="v">打开数据源台账</div>
+<div class="small">查看原始资料位置、负责人、更新时间和待补清单。</div>
+<div class="quick-status" id="sourceLedgerStatus">先在“管理连接”中配置</div>
+</a>
+</div>
+<div class="c note source-note">
+<div class="k">给领导的说明口径</div>
+<div class="small">Dashboard 是管理视图；业绩、利润、预测等数字应回溯到登记资料。风险、行动和洞察是基于原始资料形成的管理加工结果。公开网页不暴露客户、价格、成本、利润明细或内部文件地址。</div>
+</div>
+<div class="sec" id="performance">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-chart"/></svg></span>01｜业绩总览</h2>
 <p>当前跨区域总盘YTD数据尚未完整接入；先展示历史中可确认的经营目标与关键盘子，不用推算值冒充实际。</p>
 </div>
 <div class="g6">
@@ -164,262 +244,175 @@ h1{font-size:27px}
 <div class="small">洗衣机规模挑战目标</div>
 </div>
 <div class="c">
-<div class="k">南非 2026计划</div>
-<div class="v">$46.6M</div>
-<div class="small">另有支持台账挑战口径 $47.0M</div>
+<div class="k">南部非洲 2026计划</div>
+<div class="v">≈ $47M</div>
+<div class="small">年度计划大数｜Excel 脱敏汇总</div>
 </div>
 <div class="c">
-<div class="k">西非 2026计划</div>
-<div class="v">$27.8M</div>
-<div class="small">去年收入 $27.07M</div>
+<div class="k">西部非洲 2026计划</div>
+<div class="v">≈ $28M</div>
+<div class="small">年度计划大数｜Excel 脱敏汇总</div>
 </div>
 <div class="c">
-<div class="k">南非去年同期利润</div>
-<div class="v green">¥18.66M</div>
-<div class="small">去年同期收入 $43.09M</div>
+<div class="k">南部非洲去年同期利润</div>
+<div class="v green">≈ ¥19M</div>
+<div class="small">历史利润大数｜Excel 脱敏汇总</div>
 </div>
 <div class="c">
-<div class="k">西非去年利润</div>
-<div class="v green">¥21.70M</div>
-<div class="small">整体盘子盈利</div>
+<div class="k">西部非洲去年利润</div>
+<div class="v green">≈ ¥22M</div>
+<div class="small">历史利润大数｜Excel 脱敏汇总</div>
 </div>
 <div class="c">
 <div class="k">东盟预测变化</div>
-<div class="v red">5.42→4.67M</div>
-<div class="small">7月初 → 7/20摸底 → 当日4.67M</div>
+<div class="v red">≈ 5.4 → 4.7M</div>
+<div class="small">Forecast 版本变化｜Excel 脱敏汇总</div>
 </div>
 </div>
-<div class="sec">
-<h2>02｜区域经营</h2>
+<div class="sec" id="regions">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-globe"/></svg></span>02｜区域经营</h2>
 </div>
 <div class="g3">
 <div class="c">
 <div class="k">ASEAN / 东盟</div>
 <div class="v yellow">经营体系重建</div>
-<div class="small">预测：5.42M → 5.12M → 4.67M<br>核心：价格地图、2027规划、价值链统一、洗烘突破<br>泰国/马来先行；强化当地业务材料、项目跟进、会议纪要。</div>
+<div class="small">Forecast 约 5.4M → 4.7M。<br>核心：价格地图、中长期规划、价值链统一和产品结构突破。</div>
 </div>
 <div class="c">
 <div class="k">MEA / 中东非</div>
 <div class="v blue">150万台挑战</div>
-<div class="small">已归纳28项措施：成本18、营销7、资源协同3。<br>营销类约 $1.4M 终端投入。<br>当前关注南非、西非及重点国家规模利润。</div>
+<div class="small">围绕成本、营销和资源协同推进规模增长。<br>公开页仅保留整体目标，国家措施与预算明细在私有台账管理。</div>
 </div>
 <div class="c">
 <div class="k">INDIA / 印度</div>
 <div class="v green">本地化量产</div>
-<div class="small">滚筒 Epack：首单1300台，ETD 8/30，预计10/5到库，10月中生产。<br>Dixon：首单调整至3000台；波轮/双缸进入首单生产阶段。</div>
+<div class="small">本地化项目进入量产准备阶段。<br>供应商、订单量、船期和物料细节仅在私有项目台账维护。</div>
 </div>
 </div>
 <div class="sec">
-<h2>国家经营快照</h2>
+<h2>区域规模快照（公开大数）</h2>
 </div>
 <div class="c">
 <table>
-<thead>
-<tr>
-<th>市场</th>
-<th>历史/基准</th>
-<th>2026目标/计划</th>
-<th>利润/支持</th>
-<th>当前管理点</th>
-</tr>
-</thead>
+<thead><tr><th>市场组</th><th>年度计划大数</th><th>管理状态</th><th>公开来源</th></tr></thead>
 <tbody>
-<tr>
-<td>南非</td>
-<td>同期收入 $43.09M<br>利润 ¥18.66M</td>
-<td>$46.6M；支持台账挑战 $47.0M</td>
-<td>渠道推广 $250k；11kg波轮特殊支持 ¥75.09/台</td>
-<td class="red">MTC/临时核查；8/31关键节点</td>
-</tr>
-<tr>
-<td>西非</td>
-<td>去年收入 $27.07M<br>利润 ¥21.70M</td>
-<td>$27.8M</td>
-<td>展台诉求 $142.5k；另有出样/营销/对赌诉求</td>
-<td class="yellow">支持方案与增量对赌</td>
-</tr>
-<tr>
-<td>阿尔及利亚</td>
-<td>原全年计划 $17.06M</td>
-<td>H1 $8.5M；全年挑战 $18.0M</td>
-<td>渠道推广 $100k</td>
-<td>7月/12月两次兑现，低于同期不兑现</td>
-</tr>
-<tr>
-<td>沙特</td>
-<td>—</td>
-<td>H1 $5.81M；全年 $12.5M</td>
-<td>渠道推广 $250k</td>
-<td>战事影响下达成规则需动态评估</td>
-</tr>
+<tr><td>南部非洲</td><td>≈ $47M</td><td class="green">稳中求进</td><td>Excel 脱敏汇总</td></tr>
+<tr><td>西部非洲</td><td>≈ $28M</td><td class="green">规模与利润并重</td><td>Excel 脱敏汇总</td></tr>
+<tr><td>北部非洲</td><td>≈ $18M</td><td class="yellow">增长推进</td><td>Excel 脱敏汇总</td></tr>
+<tr><td>中东重点市场</td><td>≈ $13M</td><td class="yellow">动态管理</td><td>Excel 脱敏汇总</td></tr>
 </tbody>
 </table>
 </div>
-<div class="sec">
-<h2>03｜产品经营</h2>
+<div class="sec" id="products">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-box"/></svg></span>03｜产品经营</h2>
 </div>
 <div class="g4">
 <div class="c">
 <div class="k">滚筒 Front Load</div>
-<div class="v">印度 Epack</div>
-<div class="small">1300台首单；10月中本地生产目标。</div>
+<div class="v">本地化量产</div>
+<div class="small">Q4 量产窗口｜项目台账脱敏汇总。</div>
 </div>
 <div class="c">
 <div class="k">波轮 Top Load</div>
-<div class="v">Dixon</div>
-<div class="small">首单质量问题已达成一致；首单总量调整至3000台。</div>
+<div class="v">供应协同</div>
+<div class="small">质量、物料和产能按项目计划闭环。</div>
 </div>
 <div class="c">
 <div class="k">洗烘 Washer Dryer</div>
 <div class="v yellow">东盟突破</div>
-<div class="small">600万支持的目标属性仍需拉通：专项洗烘突破 vs 整体经营改善。</div>
+<div class="small">专项突破目标与整体经营改善口径仍需统一。</div>
 </div>
 <div class="c">
 <div class="k">双缸 Twin Tub</div>
 <div class="v">成本课题</div>
-<div class="small">西非曾提出外协双缸支持；总部方向为拉通全球量寻找成本措施。</div>
+<div class="small">通过全球规模协同持续寻找成本改善空间。</div>
 </div>
 </div>
-<div class="sec">
-<h2>04｜渠道 & 竞争</h2>
+<div class="sec" id="channels">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-store"/></svg></span>04｜渠道 & 竞争</h2>
 </div>
 <div class="g3">
 <div class="c">
 <div class="k">泰国</div>
 <div class="v">价格定位</div>
-<div class="small">1i 12/8 vs Toshiba T21 13/9 差价约 THB2,000；历史判断15,990THB价位不盈利；建议Hisense与Toshiba价差约2–5%。</div>
+<div class="small">核心价位竞争强，需在价格定位与盈利之间保持平衡。品牌、型号和价格明细保留在私有价格地图。</div>
 </div>
 <div class="c">
 <div class="k">越南</div>
 <div class="v">终端经营</div>
-<div class="small">巡店记录：门店份额约40%；渠道利润约32%；A/B/C=7/5/3%；促销员奖励记录“120K”。</div>
+<div class="small">门店份额、渠道收益和终端执行需按月复核；公开页不展示客户与渠道明细。</div>
 </div>
 <div class="c">
 <div class="k">终端基础</div>
 <div class="v red">需改善</div>
-<div class="small">泰国巡店发现POP/卖点缺失、公斤数标识不足；价格地图需按国家×渠道×品牌统一建立。</div>
+<div class="small">终端卖点呈现和产品标识仍需改善；价格地图按国家 × 渠道持续维护。</div>
 </div>
 </div>
-<div class="sec">
-<h2>05｜关键项目 & 战役</h2>
+<div class="sec" id="projects">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-target"/></svg></span>05｜关键项目 & 战役</h2>
 </div>
 <div class="c">
 <table>
-<thead>
-<tr>
-<th>项目</th>
-<th>状态</th>
-<th>关键节点</th>
-<th>下一动作</th>
-</tr>
-</thead>
+<thead><tr><th>项目方向</th><th>状态</th><th>时间窗口</th><th>公开管理动作</th></tr></thead>
 <tbody>
-<tr>
-<td>东盟 2027规划</td>
-<td class="yellow">推进中</td>
-<td>9/1</td>
-<td>主要市场按渠道、产品、费用改善完成规划材料</td>
-</tr>
-<tr>
-<td>东盟价格地图</td>
-<td class="yellow">推进中</td>
-<td>泰国/马来先行</td>
-<td>分渠道建立核心竞对与价格带</td>
-</tr>
-<tr>
-<td>东盟价值链统一</td>
-<td class="yellow">需统一</td>
-<td>规划同步</td>
-<td>剔除样机等客观因素，提高横向可比性</td>
-</tr>
-<tr>
-<td>南非临时核查/MTC</td>
-<td class="red">高关注</td>
-<td>8/31</td>
-<td>清关、付款、工厂检测、钢材MTC、清晰CO全项准备</td>
-</tr>
-<tr>
-<td>西非展台/对赌</td>
-<td class="yellow">待决策</td>
-<td>年底统一测算</td>
-<td>开关：完成年度计划且法人口径毛利不下滑；阶梯支持方案</td>
-</tr>
-<tr>
-<td>印度 IR 本地化</td>
-<td class="green">执行中</td>
-<td>10月中</td>
-<td>Epack到库量产；Dixon首单质量与物料闭环</td>
-</tr>
+<tr><td>东盟中长期规划</td><td class="yellow">推进中</td><td>中期</td><td>主要市场完成渠道、产品与经营规划</td></tr>
+<tr><td>区域价格地图</td><td class="yellow">完善中</td><td>持续</td><td>按国家 × 渠道维护脱敏价格带</td></tr>
+<tr><td>价值链口径</td><td class="yellow">需统一</td><td>规划同步</td><td>提高区域横向可比性</td></tr>
+<tr><td>区域合规交付</td><td class="red">高关注</td><td>月末</td><td>关键资料与节点证据闭环</td></tr>
+<tr><td>渠道增长项目</td><td class="yellow">评审中</td><td>年度</td><td>同时绑定规模与利润目标</td></tr>
+<tr><td>印度本地化</td><td class="green">执行中</td><td>Q4</td><td>供应、质量与量产准备闭环</td></tr>
 </tbody>
 </table>
 </div>
-<div class="sec">
-<h2>06｜利润 & 费用</h2>
+<div class="sec" id="profit">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-wallet"/></svg></span>06｜利润 & 费用</h2>
+<p>仅展示 Excel 汇总后的量级；财务底表、币种换算、客户和项目明细保留在私有台账。</p>
 </div>
 <div class="g4">
-<div class="c">
-<div class="k">南非利润基准</div>
-<div class="v">¥18.66M</div>
-<div class="small">去年同期；收入 $43.09M</div>
+<div class="c"><div class="k">南部非洲历史利润</div><div class="v">≈ ¥19M</div><div class="small">Excel 脱敏汇总</div></div>
+<div class="c"><div class="k">西部非洲历史利润</div><div class="v">≈ ¥22M</div><div class="small">Excel 脱敏汇总</div></div>
+<div class="c"><div class="k">区域营销投入池</div><div class="v">≈ $1M+</div><div class="small">预算量级｜不展示项目与客户明细</div></div>
+<div class="c"><div class="k">经营原则</div><div class="v blue">规模 × 毛利</div><div class="small">增长与收益同时管理</div></div>
 </div>
-<div class="c">
-<div class="k">西非利润基准</div>
-<div class="v">¥21.70M</div>
-<div class="small">去年；收入 $27.07M</div>
-</div>
-<div class="c">
-<div class="k">MEA终端营销措施</div>
-<div class="v">≈$1.4M</div>
-<div class="small">150万台措施中营销类投入规模</div>
-</div>
-<div class="c">
-<div class="k">南非型号支持</div>
-<div class="v">≈$23k</div>
-<div class="small">保变动口径仅1个型号需支持</div>
-</div>
-</div>
-<div class="c note" style="margin-top:13px">
-<div class="k">南非对赌逻辑</div>
-<div class="small">条件：完成年度预测 + 法人口径毛利同比不下滑。历史讨论方案：完成率≤110%时超额部分按1%；>110%时全部超额部分按3%；年底统一测算释放。该方案为讨论/建议口径，不标记为已最终批准。</div>
-</div>
-<div class="sec">
-<h2>07｜预测 & 供应</h2>
+<div class="c note" style="margin-top:13px"><div class="k">公开展示原则</div><div class="small">金额统一四舍五入为管理大数；公开页不展示单台金额、客户政策、审批规则或兑现条件。完整口径以财务 Excel 和私有 Notion 台账为准。</div></div>
+<div class="sec" id="forecast">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-truck"/></svg></span>07｜预测 & 供应</h2>
 </div>
 <div class="g3">
 <div class="c">
 <div class="k">东盟 Forecast</div>
-<div class="v red">5.42 → 4.67M</div>
-<div class="small">7月初5.42M；7/20摸底5.12M；随后4.67M。需要持续提高预测纪律与前端主动性。</div>
+<div class="v red">≈ 5.4 → 4.7M</div>
+<div class="small">多版本 Forecast 下修；需持续提高预测纪律。版本与日期保留在 Excel 台账。</div>
 </div>
 <div class="c">
-<div class="k">印度 Epack Timeline</div>
-<div class="v">8/30 → 10/5</div>
-<div class="small">ETD 8/30；船期+清关约35天；预计10/5到库；10月中生产。</div>
+<div class="k">本地化供应 Timeline</div>
+<div class="v">Q3 → Q4</div>
+<div class="small">供应准备逐步转入 Q4 量产窗口，具体船期和到库节点不在公开页展示。</div>
 </div>
 <div class="c">
-<div class="k">印度物料</div>
+<div class="k">关键物料</div>
 <div class="v yellow">本地资源不足</div>
-<div class="small">压线帽、进水阀滤网首批本地资源不足；压线帽印度自行采购，滤网由出差人员携带。</div>
+<div class="small">部分关键物料仍需替代资源与交付保障。</div>
 </div>
 </div>
-<div class="sec">
-<h2>08｜风险中心</h2>
+<div class="sec" id="risks">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-shield"/></svg></span>08｜风险中心</h2>
 </div>
 <div class="g4">
 <div class="c">
 <div class="k red">🔴 Critical</div>
 <div class="v">1</div>
-<div class="small">南非临时核查/MTC，8/31关键节点</div>
+<div class="small">区域合规与交付资料需按节点闭环。</div>
 </div>
 <div class="c">
 <div class="k yellow">🟡 Watch</div>
 <div class="v">4</div>
-<div class="small">东盟预测下修、600万支持目标、价格地图/规划、印度首单物料</div>
+<div class="small">预测下修、规划口径、价格地图和本地化物料。</div>
 </div>
 <div class="c">
 <div class="k green">🟢 On Track</div>
 <div class="v">2+</div>
-<div class="small">印度本地化主线、西非/南非整体盈利基础</div>
+<div class="small">印度本地化主线、西部非洲/南部非洲整体盈利基础</div>
 </div>
 <div class="c">
 <div class="k blue">🔵 Opportunity</div>
@@ -427,34 +420,34 @@ h1{font-size:27px}
 <div class="small">MEA 150万台、东盟洗烘突破、印度本地化规模化</div>
 </div>
 </div>
-<div class="sec">
-<h2>09｜行动中心</h2>
+<div class="sec" id="actions">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-checklist"/></svg></span>09｜行动中心</h2>
 </div>
 <div class="g3">
 <div class="c">
 <div class="k">近期</div>
 <div class="v">东盟</div>
-<div class="small">价格地图收口；600万支持目标属性拉通；主要市场规划材料。</div>
+<div class="small">价格地图收口；经营目标口径拉通；主要市场规划材料。</div>
 </div>
 <div class="c">
-<div class="k">8/31</div>
-<div class="v red">南非</div>
-<div class="small">MTC与临时核查资料闭环。</div>
+<div class="k">月末</div>
+<div class="v red">南部非洲</div>
+<div class="small">区域合规与交付资料闭环。</div>
 </div>
 <div class="c">
-<div class="k">9/1 → 10月中</div>
+<div class="k">规划 → Q4</div>
 <div class="v">规划 + 量产</div>
-<div class="small">9/1东盟2027规划；10月中印度Epack当地生产。</div>
+<div class="small">区域中长期规划与 Q4 本地化量产准备。</div>
 </div>
 </div>
-<div class="sec">
-<h2>10｜管理洞察</h2>
+<div class="sec" id="insights">
+<h2><span class="section-icon"><svg class="icon"><use href="#i-sparkles"/></svg></span>10｜管理洞察</h2>
 </div>
 <div class="g3">
 <div class="c">
 <div class="k">What Changed?</div>
 <div class="v red">东盟预测承压</div>
-<div class="small">预测从5.42M下修至4.67M，问题不仅是数字，也暴露前端业务主动性与经营材料体系不足。</div>
+<div class="small">Forecast 约从 5.4M 下修至 4.7M，需同时改善前端主动性与经营材料体系。</div>
 </div>
 <div class="c">
 <div class="k">Where to Win?</div>
@@ -464,10 +457,10 @@ h1{font-size:27px}
 <div class="c">
 <div class="k">Management Focus</div>
 <div class="v yellow">规模 × 利润</div>
-<div class="small">所有支持与增长项目同时绑定规模、毛利/利润和兑现条件，避免只追收入不看收益。</div>
+<div class="small">所有增长项目同时绑定规模、毛利与利润，避免只追收入不看收益。</div>
 </div>
 </div>
-<div class="foot">数据原则：仅填入历史对话/资料中有明确依据的数字；不同时间、不同口径并存时明确标注，不强行合并。后续收到周报、Excel、截图后继续替换为最新Actual / Plan / Forecast。</div>
+<div class="foot">公开数据原则：页面仅展示来自 Excel / 管理台账的四舍五入大数；精确 Actual / Plan / Forecast、客户、价格、成本、利润和项目明细保留在有权限的私有 Notion 台账及公司批准的存储位置。</div>
 </div>
 <dialog class="connection-dialog" id="connectionDialog" aria-labelledby="connectionDialogTitle">
 <form class="dialog-body" id="connectionForm" method="dialog">
@@ -486,6 +479,10 @@ h1{font-size:27px}
 <div class="field wide">
 <label for="notionProjectUrl">Notion 项目页链接</label>
 <input id="notionProjectUrl" name="notionProjectUrl" type="url" inputmode="url" autocomplete="url" placeholder="https://www.notion.so/你的项目页">
+</div>
+<div class="field wide">
+<label for="notionSourceUrl">Notion 数据源台账链接</label>
+<input id="notionSourceUrl" name="notionSourceUrl" type="url" inputmode="url" autocomplete="url" placeholder="粘贴刚创建的私有数据源台账链接">
 </div>
 <div class="field">
 <label for="emailTo">默认收件人（可选）</label>
@@ -518,6 +515,7 @@ h1{font-size:27px}
   var emptyConfig = {
     notionBusinessUrl: "",
     notionProjectUrl: "",
+    notionSourceUrl: "",
     emailTo: "",
     emailSubject: "",
     emailSearchQuery: ""
@@ -528,19 +526,27 @@ h1{font-size:27px}
   var fields = {
     notionBusinessUrl: document.getElementById("notionBusinessUrl"),
     notionProjectUrl: document.getElementById("notionProjectUrl"),
+    notionSourceUrl: document.getElementById("notionSourceUrl"),
     emailTo: document.getElementById("emailTo"),
     emailSubject: document.getElementById("emailSubject"),
     emailSearchQuery: document.getElementById("emailSearchQuery")
   };
   var notionLinks = {
-    notionBusinessUrl: {
+    notionBusinessUrl: [{
       link: document.getElementById("notionBusinessLink"),
       status: document.getElementById("notionBusinessStatus")
-    },
-    notionProjectUrl: {
+    }],
+    notionProjectUrl: [{
       link: document.getElementById("notionProjectLink"),
       status: document.getElementById("notionProjectStatus")
-    }
+    }],
+    notionSourceUrl: [{
+      link: document.getElementById("notionSourceLink"),
+      status: document.getElementById("notionSourceStatus")
+    }, {
+      link: document.getElementById("sourceLedgerLink"),
+      status: document.getElementById("sourceLedgerStatus")
+    }]
   };
 
   function readConfig() {
@@ -570,22 +576,24 @@ h1{font-size:27px}
     }
   }
 
-  function setNotionLink(item, url) {
-    if (url) {
-      item.link.href = url;
-      item.link.target = "_blank";
-      item.link.rel = "noopener noreferrer";
-      item.link.classList.remove("is-unconfigured");
-      item.link.removeAttribute("aria-disabled");
-      item.status.textContent = "已连接";
-    } else {
-      item.link.href = "#connections";
-      item.link.removeAttribute("target");
-      item.link.removeAttribute("rel");
-      item.link.classList.add("is-unconfigured");
-      item.link.setAttribute("aria-disabled", "true");
-      item.status.textContent = "待配置";
-    }
+  function setNotionLinks(items, url) {
+    items.forEach(function (item) {
+      if (url) {
+        item.link.href = url;
+        item.link.target = "_blank";
+        item.link.rel = "noopener noreferrer";
+        item.link.classList.remove("is-unconfigured");
+        item.link.removeAttribute("aria-disabled");
+        item.status.textContent = "已连接";
+      } else {
+        item.link.href = "#connections";
+        item.link.removeAttribute("target");
+        item.link.removeAttribute("rel");
+        item.link.classList.add("is-unconfigured");
+        item.link.setAttribute("aria-disabled", "true");
+        item.status.textContent = "待配置";
+      }
+    });
   }
 
   function composeUrl(base, to, subject, subjectKey) {
@@ -598,12 +606,14 @@ h1{font-size:27px}
   function applyConfig(config) {
     var businessUrl = safeHttpsUrl(config.notionBusinessUrl);
     var projectUrl = safeHttpsUrl(config.notionProjectUrl);
+    var sourceUrl = safeHttpsUrl(config.notionSourceUrl);
     var emailTo = String(config.emailTo || "").trim();
     var emailSubject = String(config.emailSubject || "").trim();
     var searchQuery = String(config.emailSearchQuery || "").trim();
 
-    setNotionLink(notionLinks.notionBusinessUrl, businessUrl);
-    setNotionLink(notionLinks.notionProjectUrl, projectUrl);
+    setNotionLinks(notionLinks.notionBusinessUrl, businessUrl);
+    setNotionLinks(notionLinks.notionProjectUrl, projectUrl);
+    setNotionLinks(notionLinks.notionSourceUrl, sourceUrl);
 
     var mailto = "mailto:" + encodeURIComponent(emailTo);
     if (emailSubject) mailto += "?subject=" + encodeURIComponent(emailSubject);
@@ -662,11 +672,13 @@ h1{font-size:27px}
   document.getElementById("cancelConnectionSettings").addEventListener("click", closeSettings);
 
   Object.keys(notionLinks).forEach(function (key) {
-    notionLinks[key].link.addEventListener("click", function (event) {
-      if (this.getAttribute("aria-disabled") === "true") {
-        event.preventDefault();
-        openSettings();
-      }
+    notionLinks[key].forEach(function (item) {
+      item.link.addEventListener("click", function (event) {
+        if (this.getAttribute("aria-disabled") === "true") {
+          event.preventDefault();
+          openSettings();
+        }
+      });
     });
   });
 
@@ -674,7 +686,7 @@ h1{font-size:27px}
     event.preventDefault();
     var invalidUrl = false;
 
-    ["notionBusinessUrl", "notionProjectUrl"].forEach(function (key) {
+    ["notionBusinessUrl", "notionProjectUrl", "notionSourceUrl"].forEach(function (key) {
       var value = fields[key].value.trim();
       var valid = !value || Boolean(safeHttpsUrl(value));
       fields[key].setCustomValidity(valid ? "" : "请输入以 https:// 开头的有效链接");
@@ -708,6 +720,32 @@ h1{font-size:27px}
   });
 
   applyConfig(readConfig());
+
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
+  var navTargets = navLinks.map(function (link) {
+    return document.querySelector(link.getAttribute("href"));
+  }).filter(Boolean);
+
+  function activateNav(id) {
+    navLinks.forEach(function (link) {
+      link.classList.toggle("is-active", link.getAttribute("href") === "#" + id);
+    });
+  }
+
+  if ("IntersectionObserver" in window) {
+    var sectionObserver = new IntersectionObserver(function (entries) {
+      var visible = entries.filter(function (entry) { return entry.isIntersecting; })
+        .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+      if (visible.length) activateNav(visible[0].target.id);
+    }, {rootMargin: "-12% 0px -72% 0px", threshold: 0});
+    navTargets.forEach(function (section) { sectionObserver.observe(section); });
+  }
+
+  navLinks.forEach(function (link) {
+    link.addEventListener("click", function () {
+      activateNav(this.getAttribute("href").slice(1));
+    });
+  });
 }());
 </script>
 </body>

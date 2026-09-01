@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Leo 全周期现金流与消费预算看板">
+<title>Leo Cashflow Dashboard</title>
+<style>
+:root{--bg:#08111f;--panel:#101a2c;--line:#25324b;--text:#eef4ff;--muted:#97a6c0;--blue:#63a9ff;--gold:#f0b95d;--pink:#ef7d9d;--green:#4bd38a}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-variant-numeric:tabular-nums}.wrap{max-width:1220px;margin:auto;padding:22px}a{color:#9cc9ff}.top{display:flex;align-items:start;justify-content:space-between;gap:16px}.top h1{margin:0 0 7px}.muted,.note{color:var(--muted);font-size:12px;line-height:1.65}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px;margin-top:14px}.kpi b{display:block;font-size:25px;margin:6px 0}.good{color:var(--green)}.warn{color:var(--gold)}.risk{color:var(--pink)}.title{font-size:16px;font-weight:800;margin-bottom:4px}.callout{border-left:4px solid var(--gold);background:#2b2317;padding:12px 14px;border-radius:10px;line-height:1.7}.cols{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}.bars{display:grid;gap:10px;margin-top:14px}.row{display:grid;grid-template-columns:72px 1fr 92px;gap:10px;align-items:center;font-size:12px}.track{height:12px;background:#1b2940;border-radius:20px;overflow:hidden}.bar{display:block;height:100%;border-radius:inherit;background:var(--blue)}.bar.gold{background:var(--gold)}.bar.pink{background:var(--pink)}table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{color:#a8b4ca}.budget{height:18px;background:#1b2940;border-radius:20px;overflow:hidden;margin:10px 0}.budget span{display:block;width:86.2%;height:100%;background:var(--gold)}.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:12px}.rule{border:1px solid var(--line);border-radius:10px;padding:11px;font-size:12px;line-height:1.55}.footer{margin:16px 0;color:var(--muted);font-size:11px;line-height:1.7}@media(max-width:850px){.grid,.cols,.rules{grid-template-columns:1fr 1fr}.scroll{overflow:auto}.scroll table{min-width:720px}}@media(max-width:560px){.grid,.cols,.rules{grid-template-columns:1fr}.top{display:block}.row{grid-template-columns:55px 1fr 82px}.wrap{padding:15px}}
+</style>
+</head>
+<body><main class="wrap">
+<div class="top"><div><h1>Leo Cashflow Dashboard</h1><div class="muted">全周期现金流透视 · 百事AA「Leo的账单」· 更新至 2026-08-30</div></div><a href="index.html">返回投资驾驶舱 →</a></div>
+<section class="grid">
+<div class="card kpi"><span class="note">2026 生活消费（1—8月）</span><b>¥258,529</b><span class="risk">同比 +63.6%</span></div>
+<div class="card kpi"><span class="note">2026 稳定薪酬（1—8月）</span><b>¥364,039</b><span class="warn">同比 −8.2%</span></div>
+<div class="card kpi"><span class="note">薪酬口径储蓄率</span><b>29.0%</b><span class="note">2025全年：52.2%</span></div>
+<div class="card kpi"><span class="note">2026 年止损额度</span><b>¥41,471</b><span class="good">9—12月约 ¥10,368/月</span></div>
+</section>
+<section class="card"><div class="callout"><b>核心判断：</b>提前还贷和投资是资产/负债动作，不等于消费。真正需要控制的是生活消费：2026年前8个月已经接近2025全年水平，主要由购物、一次性税费、住宿和娱乐推动。</div></section>
+<section class="cols">
+<article class="card"><div class="title">年度生活消费</div><div class="note">个人最终承担；剔除贷款、投资、转账、债务动作</div><div class="bars">
+<div class="row"><span>2021</span><div class="track"><span class="bar" style="width:43.1%"></span></div><b>¥116,610</b></div>
+<div class="row"><span>2022</span><div class="track"><span class="bar" style="width:46.8%"></span></div><b>¥126,818</b></div>
+<div class="row"><span>2023</span><div class="track"><span class="bar" style="width:66.4%"></span></div><b>¥179,729</b></div>
+<div class="row"><span>2024</span><div class="track"><span class="bar" style="width:96.7%"></span></div><b>¥261,698</b></div>
+<div class="row"><span>2025</span><div class="track"><span class="bar gold" style="width:100%"></span></div><b>¥270,721</b></div>
+<div class="row"><span>2026 1—8</span><div class="track"><span class="bar pink" style="width:95.5%"></span></div><b>¥258,529</b></div>
+</div></article>
+<article class="card"><div class="title">2026 月度生活消费</div><div class="note">7—8月回落，但仍稳定在约 ¥27,000/月</div><div class="bars">
+<div class="row"><span>1月</span><div class="track"><span class="bar" style="width:9.9%"></span></div><b>¥9,562</b></div><div class="row"><span>2月</span><div class="track"><span class="bar" style="width:9.5%"></span></div><b>¥9,153</b></div><div class="row"><span>3月</span><div class="track"><span class="bar" style="width:19.8%"></span></div><b>¥19,057</b></div><div class="row"><span>4月</span><div class="track"><span class="bar" style="width:27.2%"></span></div><b>¥26,247</b></div><div class="row"><span>5月</span><div class="track"><span class="bar gold" style="width:45.9%"></span></div><b>¥44,198</b></div><div class="row"><span>6月</span><div class="track"><span class="bar pink" style="width:100%"></span></div><b>¥96,364</b></div><div class="row"><span>7月</span><div class="track"><span class="bar" style="width:27.5%"></span></div><b>¥26,458</b></div><div class="row"><span>8月</span><div class="track"><span class="bar" style="width:28.5%"></span></div><b>¥27,490</b></div>
+</div></article>
+</section>
+<section class="cols">
+<article class="card"><div class="title">2026 消费结构（1—8月）</div><div class="scroll"><table><thead><tr><th>分类</th><th>金额</th><th>判断</th></tr></thead><tbody><tr><td>购物</td><td>¥114,181</td><td class="risk">同比约 +79%</td></tr><tr><td>其他</td><td>¥49,557</td><td>主要为税费</td></tr><tr><td>住宿</td><td>¥25,498</td><td>租金及住宿</td></tr><tr><td>餐饮</td><td>¥22,972</td><td class="good">同比下降</td></tr><tr><td>娱乐</td><td>¥16,203</td><td class="risk">明显增加</td></tr><tr><td>交通</td><td>¥13,131</td><td>基本稳定</td></tr></tbody></table></div></article>
+<article class="card"><div class="title">预算与储蓄目标</div><div class="note">2026止损目标：全年生活消费 ≤ ¥300,000</div><div class="budget"><span></span></div><div><b>已用 86.2%</b> · 剩余 ¥41,471</div><div class="rules"><div class="rule"><b>2027生活消费</b><br>≤ ¥240,000/年<br>≤ ¥20,000/月</div><div class="rule"><b>可选消费</b><br>≤ ¥100,000/年<br>≤ ¥8,333/月</div><div class="rule"><b>年度储蓄</b><br>保底 ¥280,000<br>目标 ¥300,000</div><div class="rule"><b>自动执行</b><br>发薪后转入<br>¥25,000/月</div></div></article>
+</section>
+<section class="card"><div class="title">大额项目口径</div><div class="scroll"><table><thead><tr><th>日期</th><th>项目</th><th>金额</th><th>看板处理</th></tr></thead><tbody><tr><td>2024-04-22</td><td>提前还贷</td><td>¥550,898</td><td>资产/负债动作，不计消费</td></tr><tr><td>2026-08-30</td><td>提前还贷</td><td>¥310,606</td><td>资产/负债动作，不计消费</td></tr><tr><td>2024-12-11</td><td>股票投入</td><td>¥228,114</td><td>资产转换，不计消费</td></tr><tr><td>2026-06-27</td><td>税费</td><td>¥46,469</td><td>真实个人成本，标记非经常</td></tr></tbody></table></div></section>
+<section class="card"><div class="title">接下来怎么控制</div><div class="rules"><div class="rule">9—12月每月生活消费不超过 <b>¥10,368</b></div><div class="rule">单笔可选消费超过 <b>¥5,000</b>，等待72小时</div><div class="rule">单月生活消费超过 <b>¥25,000</b>，必须复盘</div><div class="rule">报销、贷款、投资、转账始终与生活消费分开</div></div></section>
+<div class="footer">数据范围：2014-12-26 至 2026-08-30，共 5,262 笔；有效连续历史从 2021 年开始。金额口径以百事AA个人最终承担报表为主，已剔除报销；稳定收入仅含工资与奖金。2022 年工资记录可能不完整。<br><a href="https://app.notion.com/p/3ce4ef71f340810591b4c179883fe500" target="_blank" rel="noopener">打开 Notion 完整分析 →</a></div>
+</main></body></html>
+
